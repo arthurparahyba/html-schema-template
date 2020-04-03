@@ -3,11 +3,11 @@
 ## Usage
 
 ```
-ag asyncapi.yaml @arthurparahyba/html-schema-template -o output
+ag ./asyncapi.yaml @arthurparahyba/html-schema-template -o ./output-folder
 ```
 
 If you don't have the AsyncAPI Generator installed, you can install it like this:
 
 ```
-npm install -g @arthurparahyba/html-schema-template
+npm install -g @asyncapi/generator
 ```
