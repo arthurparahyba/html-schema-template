@@ -6,18 +6,19 @@
     "asyncapi",
     "generator",
     "html",
+    "schema",
     "template"
   ],
-  "author": "Fran Mendez <fmvilas@gmail.com> (fmvilas.com)",
+  "author": "Arthur Parahyba <arthurparahyba@gmail.com>",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/asyncapi/html-template.git"
   },
   "bugs": {
-    "url": "https://github.com/asyncapi/html-template/issues"
+    "url": "https://github.com/arthurparahyba/html-schema-template/issues"
   },
-  "homepage": "https://github.com/asyncapi/html-template#readme",
+  "homepage": "https://github.com/arthurparahyba/html-schema-template#readme",
   "scripts": {
     "test": "echo \"No test specified yet\"",
     "release": "semantic-release",
