@@ -1,0 +1,76 @@
+{% if asyncapi.hasComponents() %}
+    {% for schemaName, schema in asyncapi.components().schemas() %}
+        {% if schema.type() === 'object' %}
+        <div class="card mb-4"  id="{{schemaName}}">
+            <div class="card-header bg-info text-white">
+                {{schemaName}}
+
+                {% if schema.allOf() %}
+                {% for p in schema.allOf() %}
+                    <span class="bg-warning font-bold text-black rounded ml-2 mr-2 pr-1 pl-1" style="height: 20px;font-size: 11px;padding: 3px;">Is A</span>
+                    <a class="text-white" href="#{{p.uid()}}">{{p.uid()}}</a>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div class="card-body">
+                {% set extensions = schema | nonParserExtensions %}
+
+                {% if schema.description() !== undefined %}
+                    <h5 class="card-subtitle mb-3">{{schema.description()}}</h5>
+                {% endif %}
+                <table class="table table-sm table-striped">
+                
+                    <tr class="d-flex">
+                        <th class="col-4">Nome</th>
+                        <th class="col-4">Tipo</th>
+                        <th class="col-4">Descrição</th>
+                    </tr>
+                
+                    {% for propName, prop in schema.properties() %}
+                    <tr class="d-flex">
+                        <td class="col-4">
+                            {{propName}}
+                            
+                            {% if schema.required() | contains(propName) %}
+                                <div class="text-danger text-xs"><small>required</small></div>
+                            {% endif %}
+                        </td>
+
+                        <td class="col-4">
+                            {% if prop.type() === 'array' %}
+                                <a href="#{{prop.description()}}">{{prop.description()}}[]</a>
+                            {% elif prop.uid() === undefined %}
+                                {{prop.type()}}
+                            {% else %}
+                                <a href="#{{prop.uid()}}">{{prop.uid()}}</a>
+                            {% endif %}
+                        </td>
+                        <td class="col-4">
+                            {% if extensions.size > 0 %}
+                                {% for extensionName, extensionValue in extensions %}
+                                    {% if( 'x-'+propName === extensionName) %}
+                                        {{extensionValue}}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                
+            {% if schema.examples() %}
+                <form>
+                    {% for example in schema.examples() %}
+                    <h6 class="text-xs font-bold text-grey-darker">Example #{{loop.index}}</h6>
+                    <xmp class="hljs mb-4 border border-grey-darkest rounded">
+                        {{example}}
+                    </xmp>
+                    {% endfor %}
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+

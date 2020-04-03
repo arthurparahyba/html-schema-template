@@ -1,0 +1,80 @@
+{% if asyncapi.hasComponents() %}
+<h1 class="display-6 mt-10">Tipos Comum</h1>
+<div class="card mt-3">
+  <div class="card-body">
+    {% for schemaName, schema in asyncapi.components().schemas() %}
+        {% if schema.type() !== 'object' %}
+        <div class=" mb-4">
+        <table class="table table-sm mb-4" id="{{schema.uid()}}">
+            <tr class="d-flex ">
+                <th class="col-3">Nome</th>
+                <th class="col-2">Tipo</th>
+                <th class="col-3">Formato</th>
+                <th class="col-4">Descrição</th>
+            </tr>
+            <tr class="d-flex">
+                <td class="col-3">{{schemaName}}</td>
+                <td class="col-2">{{schema.type()}}</td>
+                <td  class="col-3">
+                    {% if schema.format() %}
+                    <span class="bg-warning font-bold no-underline text-black rounded lowercase ml-2"
+                        style="height: 20px;font-size: 11px;padding: 3px;">{{schema.format()}}</span>
+                    {% endif %}
+                    {% if schema.minimum() !== undefined %}
+                    <span class="bg-info font-bold no-underline text-white rounded lowercase ml-2"
+                        style="height: 20px;font-size: 11px;padding: 3px;" title="At least {{schema.minimum()}}">>= {{schema.minimum()}}</span>
+                    {% endif %}
+                    {% if schema.exclusiveMinimum() !== undefined %}
+                    <span class="bg-info font-bold no-underline text-white rounded lowercase ml-2"
+                        style="height: 20px;font-size: 11px;padding: 3px;" title="Greater than {{schema.exclusiveMinimum()}}">> {{schema.exclusiveMinimum()}}</span>
+                    {% endif %}
+                    {% if schema.maximum() !== undefined %}
+                    <span class="bg-info font-bold no-underline text-white rounded lowercase ml-2"
+                        style="height: 20px;font-size: 11px;padding: 3px;" title="At most {{schema.maximum()}}"><= {{schema.maximum()}}</span>
+                    {% endif %}
+                    {% if schema.exclusiveMaximum() !== undefined %}
+                    <span class="bg-info font-bold no-underline text-white rounded lowercase ml-2"
+                        style="height: 20px;font-size: 11px;padding: 3px;" title="Less than {{schema.exclusiveMaximum()}}">< {{schema.exclusiveMaximum()}}</span>
+                    {% endif %}
+                    {% if schema.minItems() !== undefined %}
+                    <span class="bg-info font-bold no-underline text-white rounded lowercase ml-2"
+                        style="height: 20px;font-size: 11px;padding: 3px;">>= {{schema.minItems()}} items</span>
+                    {% endif %}
+                    {% if schema.maxItems() !== undefined %}
+                    <span class="bg-info font-bold no-underline text-white rounded lowercase ml-2"
+                        style="height: 20px;font-size: 11px;padding: 3px;"><= {{schema.maxItems()}} items</span>
+                    {% endif %}
+                    {% if schema.maxLength() !== undefined %}
+                    <span class="bg-info font-bold no-underline text-white rounded lowercase ml-2"
+                        style="height: 20px;font-size: 11px;padding: 3px;">length <= {{schema.maxLength()}}</span>
+                    {% endif %}
+                    {% if schema.minLength() !== undefined %}
+                    <span class="bg-info font-bold no-underline text-white rounded lowercase ml-2"
+                        style="height: 20px;font-size: 11px;padding: 3px;">length >= {{schema.minLength()}}</span>
+                    {% endif %}
+                    {% if schema.pattern() !== undefined %}
+                    <span class="bg-danger font-bold no-underline text-white rounded normal-case ml-2"
+                        style="height: 20px;font-size: 11px;padding: 3px;">must match {{schema.pattern()}}</span>
+                    {% endif %}
+                    {% if schema.uniqueItems() %}
+                    <span class="bg-red-dark font-bold no-underline text-white rounded lowercase ml-2"
+                        style="height: 20px;font-size: 11px;padding: 3px;" title="Array items must be unique">Unique</span>
+                    {% endif %}
+                    {% if schema.enum() %}
+                      <div class="text-xs">
+                        Enum:
+                        {% for value in schema.enum() %}
+                          <span class="border text-white bg-info rounded ml-1 py-0 px-2">{{value | dump(2) | safe }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                </td>
+                <td class="col-4">{{schema.description()}}</td>
+            </tr>
+        </table>
+      </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+  </div>
+{% endif %}
