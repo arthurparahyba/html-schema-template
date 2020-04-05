@@ -4,16 +4,16 @@
         <div class="card mb-4"  id="{{schemaName}}">
             <div class="card-header bg-info text-white">
                 {% if schema.type() === 'array' %}
-                    <span class="text-warning font-weight-bold mr-2">Array of</span>
+                    <span class="text-warning font-weight-bold mr-2">(Array)</span>
                 {% endif %}
 
                 {{schemaName}}
 
                 {% if schema.allOf() %}
-                {% for p in schema.allOf() %}
-                    <span class="text-warning font-weight-bold mr-2 ml-2">Is A</span>
-                    <a class="text-white" href="#{{p.uid()}}">{{p.uid()}}</a>
-                {% endfor %}
+                    {% for p in schema.allOf() %}
+                        <span class="text-warning font-weight-bold mr-1 ml-1">Is A</span>
+                        <a class="text-white" href="#{{p.uid()}}">{{p.uid()}}</a>
+                    {% endfor %}
                 {% endif %}
             </div>
             <div class="card-body">
