@@ -40,14 +40,20 @@
                             {% endif %}
                         </td>
 
-                        <td class="col-4">                            
-                            {% if prop.uid() === undefined %}
-                                {{prop.type()}}
-                            {% else %}
+                        <td class="col-4">
+                            {% if prop.items() | isObject %}
+                                {% if prop.type() === 'array' %}
+                                    <span class="text-warning font-weight-bold mr-2">(Array)</span>
+                                {% endif %}
+                                <a href="#{{prop.items().uid() }}">{{prop.items().uid() }}</a>
+                            {% elif prop | isExpandable %}
                                 <a href="#{{prop.uid()}}">{{prop.uid()}}</a>
+                            {% else %}
+                                {{ prop.type() }}
                             {% endif %}
                         </td>
                         <td class="col-4">
+                            {{ prop.description() }}
                             {% if extensions.size > 0 %}
                                 {% for extensionName, extensionValue in extensions %}
                                     {% if( 'x-'+propName === extensionName) %}
@@ -59,7 +65,6 @@
                     </tr>
                     {% endfor %}
                 </table>
-                
             {% if schema.examples() %}
                 <form>
                     {% for example in schema.examples() %}

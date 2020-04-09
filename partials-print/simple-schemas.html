@@ -3,7 +3,7 @@
 <div class="card mt-3">
   <div class="card-body">
     {% for schemaName, schema in asyncapi.components().schemas() %}
-        {% if schema.type() !== 'object' %}
+        {% if schema.type() !== 'object' and  schema.type() !== 'array'  %}
         <div class=" mb-4">
         <table class="table table-sm mb-4" id="{{schema.uid()}}">
             <tr class="d-flex ">
